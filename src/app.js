@@ -25,7 +25,7 @@ app.post("/tweets", (req, res) => {
   const existingUser = users.find((user) => user.username === username);
 
   if (!existingUser) {
-    res.status(401).send("Usuário já existe!");
+    res.status(401).send("Usuário não cadastrado!");
     return;
   }
 
@@ -35,7 +35,7 @@ app.post("/tweets", (req, res) => {
   };
 
   tweets.push(tuite);
-  res.status(201).send(tuite, "Tweet criado!");
+  res.status(200).send("Ok!");
 });
 //
 
