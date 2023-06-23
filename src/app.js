@@ -14,7 +14,7 @@ const users = [];
 app.post("/sign-up", (req, res) => {
   const user = req.body;
   users.push(user);
-  res.status(200).send("Ok!");
+  res.status(201).send("Ok!");
 });
 //
 
@@ -35,7 +35,7 @@ app.post("/tweets", (req, res) => {
   };
 
   tweets.push(tuite);
-  res.status(200).send("Ok!");
+  res.status(201).send("Ok!");
 });
 //
 
