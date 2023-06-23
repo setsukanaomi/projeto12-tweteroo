@@ -13,7 +13,7 @@ const users = [];
 app.post("/sign-up", (req, res) => {
   const user = req.body;
   users.push(user);
-  res.send("OK");
+  res.sendStatus(200);
 });
 
 app.post("/tweets", (req, res) => {
@@ -22,7 +22,7 @@ app.post("/tweets", (req, res) => {
   const existingUser = users.find((user) => user.username === username);
 
   if (!existingUser) {
-    res.send("UNAUTHORIZED");
+    res.sendStatus(401);
     return;
   }
 
@@ -36,7 +36,15 @@ app.post("/tweets", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
-  res.send(tweets);
+  let recentTweets = [];
+
+  if (tweets.length > 10) {
+    recentTweets = tweets.slice(tweets.length - 10);
+  } else {
+    recentTweets = tweets.slice();
+  }
+
+  res.send(recentTweets);
 });
 
 app.listen(port, () => console.log(chalk.green(`API rodando na porta ${port}.`)));
