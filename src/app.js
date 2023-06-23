@@ -12,6 +12,7 @@ const users = [];
 
 app.post("/sign-up", (req, res) => {
   const user = req.body;
+  users.push(user);
   res.send("OK");
 });
 
