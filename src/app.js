@@ -10,19 +10,22 @@ app.use(cors());
 const tweets = [];
 const users = [];
 
+// Post de /sign-up
 app.post("/sign-up", (req, res) => {
   const user = req.body;
   users.push(user);
-  res.sendStatus(200);
+  res.status(200).send("Ok!");
 });
+//
 
+// Post de /tweets
 app.post("/tweets", (req, res) => {
   const { tweet, username } = req.body;
 
   const existingUser = users.find((user) => user.username === username);
 
   if (!existingUser) {
-    res.sendStatus(401);
+    res.status(401).send("Usuário já existe!");
     return;
   }
 
@@ -32,9 +35,11 @@ app.post("/tweets", (req, res) => {
   };
 
   tweets.push(tuite);
-  res.send(tuite);
+  res.status(201).send(tuite, "Tweet criado!");
 });
+//
 
+// Get de /tweets
 app.get("/tweets", (req, res) => {
   let recentTweets = [];
 
@@ -44,7 +49,19 @@ app.get("/tweets", (req, res) => {
     recentTweets = tweets.slice();
   }
 
+  recentTweets = recentTweets.map((tweet) => {
+    const user = users.find((user) => user.username === tweet.username);
+    if (user) {
+      return {
+        ...tweet,
+        avatar: user.avatar,
+      };
+    }
+    return tweet;
+  });
+
   res.send(recentTweets);
 });
+//
 
 app.listen(port, () => console.log(chalk.green(`API rodando na porta ${port}.`)));
